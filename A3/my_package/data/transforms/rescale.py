@@ -31,6 +31,9 @@ class RescaleImage(object):
 
         # Write your code here
         if(type(image) is np.ndarray):
+            # assuming the image is a (3, H, W) dimensional numpy vector with values lying between 0 and 1
+            image = image.transpose((1, 2, 0))
+            image = (image * 255).astype(np.uint8)
             image = Image.fromarray(image)
 
         if(type(self.output_size) is tuple):
