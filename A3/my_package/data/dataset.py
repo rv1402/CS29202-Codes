@@ -1,19 +1,22 @@
 #Imports
 import json
+from PIL import Image
+import numpy as np
 
 class Dataset(object):
     '''
         A class for the dataset that will return data items as per the given index
     '''
 
-    def __init__(self, annotation_file, transforms = None):
+    def __init__(self, annotation_file_path, transforms = None):
         '''
             Arguments:
-            annotation_file: path to the annotation file
+            annotation_file_path: path to the annotation file
             transforms: list of transforms (class instances)
                         For instance, [<class 'RandomCrop'>, <class 'Rotate'>]
         '''
-        self.annotation_file = annotation_file
+        annotation_file = open(annotation_file_path)
+        self.data = [json.loads(line) for line in annotation_file]
         self.transforms = transforms
         
 
@@ -21,7 +24,7 @@ class Dataset(object):
         '''
             return the number of data points in the dataset
         '''
-        return(len(self.annotation_file))
+        return len(self.data)
 
     def __getitem__(self, idx):
         '''
@@ -45,8 +48,24 @@ class Dataset(object):
             4. Perform the desired transformations on the image.
             5. Return the dictionary of the transformed image and annotations as specified.
         '''
-
-        with open(self.annotation_file) as f:
-            data = [json.loads(line) for line in f]
+        image_path = self.data[idx]['img_fn']
+        png_ann_path = self.data[idx]['png_ann_fn']
+        image = Image.open(image_path)
+        gt_png_ann = Image.open(png_ann_path)
+        # np_img = np.array(image)
+        # np_png_ann = np.array(png_ann)
+        bboxes = self.data[idx]['bboxes']
+        gt_bboxes = ()
+        for row in bboxes:
+            x1 = row['bbox'][0]
+            y1 = row['bbox'][1]
+            x2 = row['bbox'][0] + row['bbox'][2]
+            y2 = row['bbox'][1] + row['bbox'][3]
+            category = row['category']
+            gt_bboxes = (category, x1, y1, x2, y2)
         
-        image_path = data[idx]['img_fn']
+        dict = {}
+        dict['image'] = image
+        dict['gt_png_ann'] = gt_png_ann
+        dict['gt_bboxes'] = gt_bboxes
+        return dict
