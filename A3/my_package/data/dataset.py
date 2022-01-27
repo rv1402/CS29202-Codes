@@ -48,24 +48,35 @@ class Dataset(object):
             4. Perform the desired transformations on the image.
             5. Return the dictionary of the transformed image and annotations as specified.
         '''
-        image_path = self.data[idx]['img_fn']
+        img_path = self.data[idx]['img_fn']
         png_ann_path = self.data[idx]['png_ann_fn']
-        image = Image.open(image_path)
-        gt_png_ann = Image.open(png_ann_path)
-        # np_img = np.array(image)
-        # np_png_ann = np.array(png_ann)
+        img = Image.open(img_path)
+        png_ann = Image.open(png_ann_path)
+
+        # perform the transformations
+        for transform in self.transforms:
+            img = transform[img]
+
+        np_img = np.array(img)
+        np_png_ann = np.array(png_ann)
+
+        # convert to numpy array and rescale
+        image = np_img.transpose((2, 0, 1))
+        gt_png_ann = np_png_ann.transpose((2, 0, 1))
+        image = image / 255.0
+        gt_png_ann = gt_png_ann / 255.0
+
         bboxes = self.data[idx]['bboxes']
-        gt_bboxes = ()
+        gt_bboxes = []
         for row in bboxes:
             x1 = row['bbox'][0]
             y1 = row['bbox'][1]
             x2 = row['bbox'][0] + row['bbox'][2]
             y2 = row['bbox'][1] + row['bbox'][3]
             category = row['category']
-            gt_bboxes = (category, x1, y1, x2, y2)
+            bbox = (category, x1, y1, x2, y2)
+            gt_bboxes.append(bbox)
         
-        dict = {}
-        dict['image'] = image
-        dict['gt_png_ann'] = gt_png_ann
-        dict['gt_bboxes'] = gt_bboxes
+        dict = {'image': image, 'gt_png_ann': gt_png_ann, 'gt_bboxes': gt_bboxes}
+        
         return dict
