@@ -52,9 +52,6 @@ class CropImage(object):
 
             cropped_image = image[r:r+new_height,c:c+new_width]
         
+        cropped_image = np.array(cropped_image).transpose((2, 0, 1)) / 255.0
+
         return(cropped_image)
-
-
-        
-
- 

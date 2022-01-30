@@ -45,8 +45,10 @@ class RescaleImage(object):
                 height = int(float(height) * float(width_percent))
                 resized_image = image.resize((self.output_size, height), Image.NEAREST)
             else:
-                height_percent = (self.out_size / float(height))
+                height_percent = (self.output_size / float(height))
                 width = int(float(width) * float(height_percent))
                 resized_image = image.resize((width, self.output_size), Image.NEAREST)
+
+        resized_image = np.array(resized_image).transpose((2, 0, 1)) / 255.0
         
         return resized_image

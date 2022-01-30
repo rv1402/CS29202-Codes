@@ -39,4 +39,6 @@ class FlipImage(object):
         else:
             flipped_image = image.transpose(method=Image.FLIP_TOP_BOTTOM)
         
+        flipped_image = np.array(flipped_image).transpose((2, 0, 1)) / 255.0
+
         return flipped_image

@@ -63,4 +63,3 @@ class InstanceSegmentationModel(object):
 		pred_score = list(predictions[0]['scores'].detach().numpy()) # Prediction scores
 		
 		return pred_boxes, pred_masks, pred_class, pred_score 
-

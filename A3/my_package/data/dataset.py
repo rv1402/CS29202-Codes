@@ -50,19 +50,22 @@ class Dataset(object):
         '''
         img_path = self.data[idx]['img_fn']
         png_ann_path = self.data[idx]['png_ann_fn']
-        img = Image.open(img_path)
-        png_ann = Image.open(png_ann_path)
+        img = Image.open('./data/' + img_path)
+        png_ann = Image.open('./data/' + png_ann_path)
 
         # perform the transformations
+        transformed_images = []
         for transform in self.transforms:
-            img = transform[img]
+            output = transform(img)
+            output = (output.transpose((1, 2, 0)) * 255).astype(np.uint8)
+            transformed_images.append(output)
 
         np_img = np.array(img)
         np_png_ann = np.array(png_ann)
 
         # convert to numpy array and rescale
         image = np_img.transpose((2, 0, 1))
-        gt_png_ann = np_png_ann.transpose((2, 0, 1))
+        gt_png_ann = np_png_ann
         image = image / 255.0
         gt_png_ann = gt_png_ann / 255.0
 
@@ -79,4 +82,4 @@ class Dataset(object):
         
         dict = {'image': image, 'gt_png_ann': gt_png_ann, 'gt_bboxes': gt_bboxes}
         
-        return dict
+        return dict, transformed_images

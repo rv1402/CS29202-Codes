@@ -31,5 +31,9 @@ class RotateImage(object):
             image = image.transpose((1, 2, 0))
             image = (image * 255).astype(np.uint8)
             image = Image.fromarray(image)
-        
-        return(image.rotate(self.degrees))
+
+        rotated_image = image.rotate(self.degrees)
+
+        rotated_image = np.array(rotated_image).transpose((2, 0, 1)) / 255.0
+
+        return rotated_image
