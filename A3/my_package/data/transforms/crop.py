@@ -35,7 +35,7 @@ class CropImage(object):
             image = image.transpose((1, 2, 0))
             image = (image * 255).astype(np.uint8)
             image = Image.fromarray(image)
-        
+
         width, height = image.size
         new_width, new_height = self.shape
 
@@ -51,7 +51,7 @@ class CropImage(object):
             c = randint(0, (height - new_height))
 
             cropped_image = image[r:r+new_height,c:c+new_width]
-        
+
         cropped_image = np.array(cropped_image).transpose((2, 0, 1)) / 255.0
 
         return(cropped_image)

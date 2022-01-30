@@ -17,7 +17,7 @@ class FlipImage(object):
         # Write your code here
         self.flip_type = flip_type
 
-        
+
     def __call__(self, image):
         '''
             Arguments:
@@ -33,12 +33,12 @@ class FlipImage(object):
             image = image.transpose((1, 2, 0))
             image = (image * 255).astype(np.uint8)
             image = Image.fromarray(image)
-        
+
         if(self.flip_type == 'horizontal'):
             flipped_image = image.transpose(method=Image.FLIP_LEFT_RIGHT)
         else:
             flipped_image = image.transpose(method=Image.FLIP_TOP_BOTTOM)
-        
+
         flipped_image = np.array(flipped_image).transpose((2, 0, 1)) / 255.0
 
         return flipped_image

@@ -15,7 +15,7 @@ class BlurImage(object):
 
         # Write your code here
         self.radius = radius
-        
+
 
     def __call__(self, image):
         '''
@@ -32,7 +32,7 @@ class BlurImage(object):
             image = image.transpose((1, 2, 0))
             image = (image * 255).astype(np.uint8)
             image = Image.fromarray(image)
-        
+
         blurred_image = image.filter(ImageFilter.GaussianBlur(radius = self.radius))
 
         blurred_image = np.array(blurred_image).transpose((2, 0, 1)) / 255.0

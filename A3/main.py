@@ -50,7 +50,7 @@ def experiment(annotation_file, segmentor, transforms, outputs):
             pred_boxes, pred_masks, pred_class, pred_score = segmentor(np_img)
 
             plot_visualization(np_img, pred_boxes, pred_masks, pred_class, pred_score, './transformations/', c)
-        else:                
+        else:
             pred_boxes, pred_masks, pred_class, pred_score = segmentor(transformation(np_img))
 
             plot_visualization(transformation(np_img), pred_boxes, pred_masks, pred_class, pred_score, './transformations/', c)

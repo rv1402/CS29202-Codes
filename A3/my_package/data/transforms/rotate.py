@@ -12,7 +12,7 @@ class RotateImage(object):
             Arguments:
             degrees: rotation degree.
         '''
-        
+
         # Write your code here
         self.degrees = degrees
 
