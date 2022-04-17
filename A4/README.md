@@ -10,6 +10,8 @@ This project detects individual elements in an image and renders a bounding box 
   `pip3 install matplotlib`
 4. Pillow
   `pip3 install pillow`
+5. mypackage-rv4102
+  `pip3 install ./my_package_rv4102-0.0.1-py3-none-any.whl`
 
 ## Notes
 1. This software determines only the top 3 entities in the given image based on a confidence score. Other detected entities are not covered by segmentation masks or bounding boxes.
