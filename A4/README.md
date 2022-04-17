@@ -16,3 +16,8 @@ This project detects individual elements in an image and renders a bounding box 
 2. Temporary image files (1 for bounding box and 1 for segmentation mask) are saved to disk in the working directory during the runtime of the script. It is destroyed automatically afterwards.
 
 ## Screenshots
+1. ![error](/Screenshots/error.png)
+2. ![bbox1](/Screenshots/bbox1.png)
+3. ![mask1](/Screenshots/mask1.png)
+4. ![bbox2](/Screenshots/bbox2.png)
+5. ![mask2](/Screenshots/mask2.png)
